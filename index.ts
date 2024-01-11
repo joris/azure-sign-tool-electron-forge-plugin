@@ -10,15 +10,16 @@ import fs from "fs-extra"
 import path from "path"
 
 type ConfigTypes = {
-	userName: string
-	password: string
-	credentialId: string
-	userTotp: string
-	signToolPath: string
+	azureKeyVaultUri: string
+	azureClientId: string
+	azureTenantId: string
+	azureClientSecret: string
+	azureCertificateName: string
+	// signToolPath: string
 }
 
-class ElectronForgeSslCodeSignPlugin extends PluginBase<ConfigTypes> {
-	name = "@burzo/electron-forge-ssl-code-sign-plugin"
+export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
+	name = "@joris/electron-forge-azure-sign-tool-plugin"
 	
 	constructor(config: ConfigTypes) {
 		super(config)
@@ -45,7 +46,14 @@ class ElectronForgeSslCodeSignPlugin extends PluginBase<ConfigTypes> {
 			)
 		}
 
-		const { userName, password, credentialId, userTotp, signToolPath } =
+		const {
+			azureKeyVaultUri,
+			azureClientId,
+			azureTenantId,
+			azureClientSecret,
+			azureCertificateName
+			// signToolPath
+		 } =
 			this.config
 
 		return makeResults.map((data) => {
@@ -55,7 +63,13 @@ class ElectronForgeSslCodeSignPlugin extends PluginBase<ConfigTypes> {
 				return data
 			}
 
-			if (!userName || !password || !credentialId || !signToolPath) {
+			if (!azureKeyVaultUri ||
+				!azureClientId ||
+				!azureTenantId ||
+				!azureClientSecret ||
+				!azureCertificateName
+				// !signToolPath
+			) {
 				throw new Error(
 					`You did not provide all the required config variables to ${
 						this.name
@@ -92,72 +106,28 @@ class ElectronForgeSslCodeSignPlugin extends PluginBase<ConfigTypes> {
 
 				const exeFilePath = releasesPath.replace("RELEASES", exeName)
 
-				/**
-				 * The CodeSignTool calls other subfolders which means it needs
-				 * the absolute path in case you're calling it from anywhere
-				 * else other then it's root folder. This is their code:
-				 *
-				 * set code_sign_tool_path=%CODE_SIGN_TOOL_PATH%
-				 *
-				 * if defined code_sign_tool_path (
-				 * 		%code_sign_tool_path%\jdk-11.0.2\bin\java -jar %code_sign_tool_path%\jar\code_sign_tool-1.3.0.jar %*
-				 * ) else (
-				 * 		.\jdk-11.0.2\bin\java -jar .\jar\code_sign_tool-1.3.0.jar %*
-				 * )
-				 */
-				const { dir: codeSignToolFolder, name } = path.parse(signToolPath)
-				const codeSignToolFile = path.join(codeSignToolFolder, name)
-
 				const execSyncSettings = {
 					stdio: "inherit",
 					encoding: "utf8",
-					env: {
-						...process.env,
-						CODE_SIGN_TOOL_PATH: codeSignToolFolder,
-					},
+					// env: {
+					// 	...process.env,
+					// },
 				} as ExecSyncOptionsWithStringEncoding
 
 				/**
-				 * We sign both the .exe and .nupkg files.
+				 * We sign all the .exe files?
 				 */
 				try {
 					execSync(
-						`${codeSignToolFile} sign -input_file_path="${exeFilePath}" -override="true" -credential_id="${credentialId}" -username="${userName}" -password="${password}" ${
-							userTotp ? `-totp_secret="${userTotp}"` : ""
-						}`,
-						execSyncSettings,
-					)
-
-					/**
-					 * To sign the .nupkg files we also need to make sure the CodeSignTool
-					 * has the following config property set - TSA_LEGACY_URL=http://ts.ssl.com/legacy
-					 * as per https://www.ssl.com/how-to/code-signing-nuget-packages-with-esigner-codesigntool/.
-					 */
-					const pathtoCodeSignToolConf = path.join(
-						codeSignToolFolder,
-						"conf",
-						"code_sign_tool.properties",
-					)
-					const codeSignToolConfig = fs.readFileSync(
-						pathtoCodeSignToolConf,
-						"utf8",
-					)
-
-					if (
-						!codeSignToolConfig.includes(
-							"TSA_LEGACY_URL=http://ts.ssl.com/legacy",
-						)
-					) {
-						fs.appendFileSync(
-							pathtoCodeSignToolConf,
-							`\nTSA_LEGACY_URL=http://ts.ssl.com/legacy`,
-						)
-					}
-
-					execSync(
-						`${codeSignToolFile} sign -input_file_path="${nupkgFilePath}" -override="true" -credential_id="${credentialId}" -username="${userName}" -password="${password}" ${
-							userTotp ? `-totp_secret="${userTotp}"` : ""
-						}`,
+						`AzureSignTool sign \
+							--azure-key-vault-url "${ azureKeyVaultUri }" \
+							--azure-key-vault-client-id "${ azureClientId }" \
+							--azure-key-vault-tenant-id "${ azureTenantId }" \
+							--azure-key-vault-client-secret "${ azureClientSecret }" \
+							--azure-key-vault-certificate ${ azureCertificateName } \
+							--timestamp-rfc3161 http://timestamp.digicert.com \
+							--verbose \
+							${exeFilePath}`,
 						execSyncSettings,
 					)
 				} catch (e) {
@@ -174,4 +144,4 @@ class ElectronForgeSslCodeSignPlugin extends PluginBase<ConfigTypes> {
 	}
 }
 
-module.exports = ElectronForgeSslCodeSignPlugin
+// module.exports = ElectronForgeAzureSignToolPlugin

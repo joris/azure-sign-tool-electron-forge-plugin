@@ -1,13 +1,13 @@
 {
-	"name": "@burzo/electron-forge-ssl-code-sign-plugin",
+	"name": "@joris/electron-forge-azure-sign-tool-plugin",
 	"version": "1.0.6",
-	"description": "This is an Electron Forge plugin designed to automatically sign files using SSL.com-certified eSigner during the build process. It simplifies code signing, providing a seamless, automated experience.",
+	"description": "This is an Electron Forge plugin designed to automatically sign files with Azure (HSM) Key Vault (with AzureCodeSign), in the build process.",
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "tsc --project tsconfig.json",
 		"pub": "npm run build && npm publish --access public"
 	},
-	"author": "Miha Drofenik <miha.drofenik92@gmail.com>",
+	"author": "Joris Machielse <joris@recordonce.com>",
 	"license": "ISC",
 	"peerDependencies": {
 		"@electron-forge/plugin-base": ">=7.0.0"
@@ -19,22 +19,23 @@
 		"@types/fs-extra": "^11.0.4",
 		"typescript": "^5.3.3"
 	},
-	"homepage": "https://github.com/Burzo/electron-forge-ssl-code-sign-plugin#readme",
+	"homepage": "https://github.com/joris/electron-forge-azure-sign-tool-plugin#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Burzo/electron-forge-ssl-code-sign-plugin.git"
+		"url": "git+https://github.com/joris/electron-forge-azure-sign-tool-plugin.git"
 	},
 	"keywords": [
 		"electron",
 		"electron-forge",
 		"plugin",
 		"codesign",
-		"ssl",
-		"ssl-codesign",
 		"electron-forge-plugin",
 		"electron-build",
-		"ssl-certificates",
 		"automated-signing",
-		"esigner"
+		"extended-validation",
+		"hsm",
+		"azure-key-vault",
+		"azurecodesign",
+		"azure-code-sign"
 	]
 }

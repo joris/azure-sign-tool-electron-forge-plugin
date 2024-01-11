@@ -1,44 +1,37 @@
-# @burzo/electron-forge-ssl-code-sign-plugin
+WARNING: This is a DRAFT project, and has not been built yet.
 
-Due to changes mentioned in the [electron-forge documentation](https://www.electronforge.io/guides/code-signing/code-signing-windows), the previous method of using certificates provided by [SSL.com](https://www.ssl.com/) is no longer viable. This is where our plugin comes into play.
+# @joris/electron-forge-azure-sign-tool-plugin
 
-This plugin ensures that once the `@electron-forge/maker-squirrel` completes its make process, it signs the generated `exe` and `nupkg` files using the [eSigner CodeSignTool](https://www.ssl.com/guide/esigner-codesigntool-command-guide/) provided by SSL.com.
+I wanted to sign the Windows app that we’re building (www.recordonce.com) with an EV certificate in a Github Actions build pipeline.
 
-Please note that `msi` files are currently not supported for signing.
+[This article provided](https://melatonin.dev/blog/how-to-code-sign-windows-installers-with-an-ev-cert-on-github-actions/) 99% of the solution. But as Electron Forge does not use AzureCodeSign which is necessary to work with HSM and Azure Key Vault, I adapted another plugin ([@burzo/electron-forge-ssl-code-sign-plugin](https://github.com/Burzo/electron-forge-ssl-code-sign-plugin/)) to hopefully fix that.
+
+The code is heavily based on [@burzo/electron-forge-ssl-code-sign-plugin](https://github.com/Burzo/electron-forge-ssl-code-sign-plugin/).
 
 ## Prerequisites
 
 This plugin works with electron-forge version >=7.
 
-Additionally, you need to download the CodeSignTool:
+Additionally, you need to install the [AzureSignTool](https://github.com/vcsjones/AzureSignTool).
 
-- [Download for Windows](https://www.ssl.com/download/codesigntool-for-windows/)
-
-Please keep in mind that this plugin currently supports building only on Windows-based machines.
+This plugin currently only supports building on Windows-based machines.
 
 ## Installation
 
 ```
-npm i --save-dev @burzo/electron-forge-ssl-code-sign-plugin
+npm i --save-dev @joris/electron-forge-azure-sign-tool-plugin
 ```
 
 or
 
 ```
-yarn add --dev @burzo/electron-forge-ssl-code-sign-plugin
+yarn add --dev @joris/electron-forge-azure-sign-tool-plugin
 ```
 
 ## Configuration
 
-The plugin accepts the following configuration variables:
-
-- `userName`: Typically, this is the email set on [express.esigner.com](https://express.esigner.com/esign) or [app.esigner.com](https://app.esigner.com/).
-- `password`: The password associated with the above `userName`.
-- `credentialId`: The eSigner credential ID found under the certificate's signing credentials on [secure.ssl.com](https://secure.ssl.com/login).
-- `signToolPath`: The **absolute** path to the CodeSignTool you downloaded from SSL.com.
-- `userTotp` (optional): The secret key generated when creating the QR code on [secure.ssl.com](https://secure.ssl.com/login). For more information, see [here](https://www.ssl.com/how-to/automate-esigner-ev-code-signing/).
-
-If you don't pass in `userTotp`, then `electron-forge` will pause the process when signing the app and wait for you to input the code via the OTP you set up on [secure.ssl.com](https://secure.ssl.com/login).
+The plugin accepts the configuration variables that are used by this guide on how to sign code with an EV certificate.
+The variables correspond to [AzureCodeSign’s paramaters](https://github.com/vcsjones/AzureSignTool#parameters).
 
 Include the plugin in your Forge config as follows:
 
@@ -46,13 +39,13 @@ Include the plugin in your Forge config as follows:
 	...,
 	"plugins": [
 		{
-			name: "@burzo/electron-forge-ssl-code-sign-plugin",
+			name: "@joris/electron-forge-azure-sign-tool-plugin",
 			config: {
-				userName: "some@email.com",
-				password: "mypass",
-				credentialId: "credential-id",
-				userTotp: "secret-key",
-				signToolPath: "C:/apps/my-electron-forge-app/CodeSignTool-v1.3.0-windows/CodeSignTool",
+				azureKeyVaultUri: "",
+				azureClientId: "",
+				azureTenantId: "",
+				azureClientSecret: "",
+				azureCertificateName: "",
 			},
 		},
 	],
@@ -61,4 +54,4 @@ Include the plugin in your Forge config as follows:
 
 ## Contribution
 
-If anyone would like to add `msi` signing support, feel free to submit a PR :)
+Feel free to submit a PR :)
