@@ -1,7 +1,7 @@
 {
-	"name": "@joris/electron-forge-azure-sign-tool-plugin",
-	"version": "1.0.6",
-	"description": "This is an Electron Forge plugin designed to automatically sign files with Azure (HSM) Key Vault (with AzureCodeSign), in the build process.",
+	"name": "@joris/azure-sign-tool-electron-forge-plugin",
+	"version": "0.0.1",
+	"description": "This is an Electron Forge plugin designed to automatically sign files with an HSM certificate from Azure Key Vault (with AzureCodeSign), in the build process.",
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "tsc --project tsconfig.json",
@@ -19,10 +19,10 @@
 		"@types/fs-extra": "^11.0.4",
 		"typescript": "^5.3.3"
 	},
-	"homepage": "https://github.com/joris/electron-forge-azure-sign-tool-plugin#readme",
+	"homepage": "https://github.com/joris/azure-sign-tool-electron-forge-plugin#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/joris/electron-forge-azure-sign-tool-plugin.git"
+		"url": "git+https://github.com/joris/azure-sign-tool-electron-forge-plugin.git"
 	},
 	"keywords": [
 		"electron",

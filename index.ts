@@ -19,8 +19,8 @@ type ConfigTypes = {
 }
 
 export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
-	name = "@joris/electron-forge-azure-sign-tool-plugin"
-	
+	name = "@joris/azure-sign-tool-electron-forge-plugin"
+
 	constructor(config: ConfigTypes) {
 		super(config)
 		this.config = config
@@ -51,10 +51,9 @@ export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
 			azureClientId,
 			azureTenantId,
 			azureClientSecret,
-			azureCertificateName
+			azureCertificateName,
 			// signToolPath
-		 } =
-			this.config
+		} = this.config
 
 		return makeResults.map((data) => {
 			const { artifacts, platform } = data
@@ -63,7 +62,8 @@ export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
 				return data
 			}
 
-			if (!azureKeyVaultUri ||
+			if (
+				!azureKeyVaultUri ||
 				!azureClientId ||
 				!azureTenantId ||
 				!azureClientSecret ||
@@ -120,11 +120,11 @@ export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
 				try {
 					execSync(
 						`AzureSignTool sign \
-							--azure-key-vault-url "${ azureKeyVaultUri }" \
-							--azure-key-vault-client-id "${ azureClientId }" \
-							--azure-key-vault-tenant-id "${ azureTenantId }" \
-							--azure-key-vault-client-secret "${ azureClientSecret }" \
-							--azure-key-vault-certificate ${ azureCertificateName } \
+							--azure-key-vault-url "${azureKeyVaultUri}" \
+							--azure-key-vault-client-id "${azureClientId}" \
+							--azure-key-vault-tenant-id "${azureTenantId}" \
+							--azure-key-vault-client-secret "${azureClientSecret}" \
+							--azure-key-vault-certificate ${azureCertificateName} \
 							--timestamp-rfc3161 http://timestamp.digicert.com \
 							--verbose \
 							${exeFilePath}`,
