@@ -1,41 +1,84 @@
 {
-	"name": "@joris/azure-sign-tool-electron-forge-plugin",
-	"version": "0.0.1",
-	"description": "This is an Electron Forge plugin designed to automatically sign files with an HSM certificate from Azure Key Vault (with AzureCodeSign), in the build process.",
-	"main": "dist/index.js",
-	"scripts": {
-		"build": "tsc --project tsconfig.json",
-		"pub": "npm run build && npm publish --access public"
-	},
-	"author": "Joris Machielse <joris@recordonce.com>",
-	"license": "ISC",
-	"peerDependencies": {
-		"@electron-forge/plugin-base": ">=7.0.0"
-	},
-	"devDependencies": {
-		"fs-extra": "^11.2.0",
-		"@electron-forge/plugin-base": "^7.0.0",
-		"@electron-forge/shared-types": "^7.0.0",
-		"@types/fs-extra": "^11.0.4",
-		"typescript": "^5.3.3"
-	},
-	"homepage": "https://github.com/joris/azure-sign-tool-electron-forge-plugin#readme",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/joris/azure-sign-tool-electron-forge-plugin.git"
-	},
-	"keywords": [
-		"electron",
-		"electron-forge",
-		"plugin",
-		"codesign",
-		"electron-forge-plugin",
-		"electron-build",
-		"automated-signing",
-		"extended-validation",
-		"hsm",
-		"azure-key-vault",
-		"azurecodesign",
-		"azure-code-sign"
-	]
+  "name": "@joris/azure-sign-tool-electron-forge-plugin",
+  "version": "0.0.1",
+  "description": "This is an Electron Forge plugin designed to automatically sign files with an HSM certificate from Azure Key Vault (with AzureCodeSign), in the build process.",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint --color --ext .html,.js,.json,.jsx,.md,.ts,.tsx src",
+    "type-check": "tsc --noEmit",
+    "build": "tsc --project tsconfig.json",
+    "pub": "npm run build && npm publish --access public"
+  },
+  "author": "Joris Machielse <joris@recordonce.com>",
+  "license": "ISC",
+  "peerDependencies": {
+    "@electron-forge/plugin-base": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/plugin-base": "^7.0.0",
+    "@electron-forge/shared-types": "^7.0.0",
+    "@types/fs-extra": "^11.0.4",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "^8.34.0",
+    "eslint-config-adjunct": "^4.11.2",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-auto": "^0.7.3",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-array-func": "^3.1.7",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.4",
+    "eslint-plugin-jest-async": "^1.0.3",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-lodash-fp": "^2.2.0-a1",
+    "eslint-plugin-markdown": "^2.2.1",
+    "eslint-plugin-no-constructor-bind": "^2.0.4",
+    "eslint-plugin-no-secrets": "^0.8.9",
+    "eslint-plugin-no-unsanitized": "^4.0.1",
+    "eslint-plugin-no-use-extend-native": "^0.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-optimize-regex": "^1.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-scanjs-rules": "^0.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-sonarjs": "^0.13.0",
+    "eslint-plugin-switch-case": "^1.1.2",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "fs-extra": "^11.2.0",
+    "prettier": "^2.6.2",
+    "release-it": "^16.2.1",
+    "typescript": "^5.3.3"
+  },
+  "homepage": "https://github.com/joris/azure-sign-tool-electron-forge-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joris/azure-sign-tool-electron-forge-plugin.git"
+  },
+  "release-it": {
+    "npm": false,
+    "plugins": {
+      "@release-it/bumper": {
+        "in": "package.json",
+        "out": "package.json"
+      }
+    }
+  },
+  "keywords": [
+    "electron",
+    "electron-forge",
+    "plugin",
+    "codesign",
+    "electron-forge-plugin",
+    "electron-build",
+    "automated-signing",
+    "extended-validation",
+    "hsm",
+    "azure-key-vault",
+    "azurecodesign",
+    "azure-code-sign"
+  ]
 }

@@ -36,20 +36,20 @@ The variables correspond to [AzureCodeSign’s paramaters](https://github.com/vc
 Include the plugin in your Forge config as follows:
 
 ```
-	...,
-	"plugins": [
-		{
-			name: "@joris/azure-sign-tool-electron-forge-plugin",
-			config: {
-				azureKeyVaultUri: "",
-				azureClientId: "",
-				azureTenantId: "",
-				azureClientSecret: "",
-				azureCertificateName: "",
-			},
-		},
-	],
-	...,
+  ...,
+  "plugins": [
+    {
+      name: "@joris/azure-sign-tool-electron-forge-plugin",
+      config: {
+        azureKeyVaultUri: "",
+        azureClientId: "",
+        azureTenantId: "",
+        azureClientSecret: "",
+        azureCertificateName: "",
+      },
+    },
+  ],
+  ...,
 ```
 
 ## Contribution
