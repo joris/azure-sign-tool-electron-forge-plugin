@@ -1,6 +1,6 @@
 WARNING: This is a DRAFT project, and has not been built yet.
 
-# @joris/azure-sign-tool-electron-forge-plugin
+# azure-sign-tool-electron-forge-plugin
 
 I wanted to sign the Windows app that we’re building (www.recordonce.com) with an EV certificate in a Github Actions build pipeline.
 
@@ -19,13 +19,13 @@ This plugin currently only supports building on Windows-based machines.
 ## Installation
 
 ```
-npm i --save-dev @joris/azure-sign-tool-electron-forge-plugin
+npm i --save-dev azure-sign-tool-electron-forge-plugin
 ```
 
 or
 
 ```
-yarn add --dev @joris/azure-sign-tool-electron-forge-plugin
+yarn add --dev azure-sign-tool-electron-forge-plugin
 ```
 
 ## Configuration
@@ -39,7 +39,7 @@ Include the plugin in your Forge config as follows:
   ...,
   "plugins": [
     {
-      name: "@joris/azure-sign-tool-electron-forge-plugin",
+      name: "azure-sign-tool-electron-forge-plugin",
       config: {
         azureKeyVaultUri: "",
         azureClientId: "",

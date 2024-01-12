@@ -18,7 +18,7 @@ type ConfigTypes = {
 };
 
 export class ElectronForgeAzureSignToolPlugin extends PluginBase<ConfigTypes> {
-  name = "@joris/azure-sign-tool-electron-forge-plugin";
+  name = "azure-sign-tool-electron-forge-plugin";
 
   constructor(config: ConfigTypes) {
     super(config);

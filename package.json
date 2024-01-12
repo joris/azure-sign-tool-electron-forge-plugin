@@ -1,5 +1,5 @@
 {
-  "name": "@joris/azure-sign-tool-electron-forge-plugin",
+  "name": "azure-sign-tool-electron-forge-plugin",
   "version": "0.0.1",
   "description": "This is an Electron Forge plugin designed to automatically sign files with an HSM certificate from Azure Key Vault (with AzureCodeSign), in the build process.",
   "main": "dist/index.js",
